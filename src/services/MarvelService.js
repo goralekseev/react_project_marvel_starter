@@ -30,7 +30,8 @@ class MarvelService{
             description: char.description.length < 1 ? char.description='No data available' : `${char.description.slice(0,250)}...`,
             thumbnail: char.thumbnail.path+ '.' +char.thumbnail.extension,
             homepage: char.urls[0].url,
-            wiki: char.urls[1].url
+            wiki: char.urls[1].url,
+            comics: char.comics.items.length > 9 ? char.comics.items.slice(0, 9) : char.comics.items
 
         }
     }

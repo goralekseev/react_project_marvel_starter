@@ -8,7 +8,6 @@ import mjolnir from '../../resources/img/mjolnir.png';
 
 
 class RandomChar extends Component {
-    
     state= {
         char: {},
         loading: true,
@@ -31,6 +30,13 @@ class RandomChar extends Component {
         this.setState({
             char, 
             loading: false} )
+    }
+
+    onCharLoading = (char) =>{
+        this.setState({
+            char,
+            loading: true
+        })
     }
 
     onError= () =>{
