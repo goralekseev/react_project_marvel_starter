@@ -1,4 +1,5 @@
 import { Component } from 'react';  
+import PropTypes from 'prop-types';
 
 import './charInfo.scss';
 
@@ -132,4 +133,12 @@ const View = ({char}) =>{
          </>
     )
 }
+
+
+
+
+CharInfo.propTypes ={
+    charId: PropTypes.number
+}
+
 export default CharInfo;
