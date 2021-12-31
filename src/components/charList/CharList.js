@@ -1,5 +1,5 @@
 import './charList.scss';
-import { Component } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types'
 import MarvelService from '../../services/MarvelService';
 import Spinner from '../spinner/Spinner';
@@ -24,7 +24,20 @@ marvelService = new MarvelService();
 componentDidMount(){
    this.onRequest();
    
+   
 }
+
+itemRefs = [];
+setRef = (ref) => {
+    this.itemRefs.push(ref)
+}
+
+focusOnItem = (id) =>{
+this.itemRefs.forEach(item => item.classList.remove('char__item_selected'));
+this.itemRefs[id].classList.add('char__item_selected');
+this.itemRefs[id].focus();
+}
+
 
 onRequest = (offset) =>{
     this.onCharListLoading();
@@ -76,7 +89,7 @@ onError= () =>{
 
 
 renderItems(arr){
-    const items = arr.map((item) =>{
+    const items = arr.map((item, i) =>{
         let imgStyle= {'objectFit': 'cover'}
         const withoutImg = "http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg" 
         if(item.thumbnail===withoutImg){
@@ -84,9 +97,21 @@ renderItems(arr){
     }
 
     return(
-        <li className="char__item"
+        <li 
+        ref={this.setRef}
+        className="char__item"
         key={item.id}
-        onClick = {() =>this.props.onCharSelected(item.id)}>
+        tabIndex={0}
+        onClick = {() =>
+            {this.props.onCharSelected(item.id);
+            this.focusOnItem(i)
+            }}
+        onKeyPress={(e)=>{
+            if(e.key === ' ' || e.key === "Enter"){
+                this.props.onCharSelected(item.id);
+                this.focusOnItem(i);
+            }
+            }}>
             <img src={item.thumbnail} alt={item.name} style={imgStyle}/>
             <div className="char__name">{item.name}</div>
          </li>
