@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';  
 import PropTypes from 'prop-types';
+import {Link} from 'react-router-dom'
 
 import './charInfo.scss';
 
-import MarvelService from '../../services/MarvelService';
+import useMarvelService from '../../services/MarvelService';
 import ErrorMessage from '../errorMessage/ErrorMessage';
 import Spinner from '../spinner/Spinner';
 import Skeleton from '../skeleton/Skeleton';
@@ -12,10 +13,9 @@ import Skeleton from '../skeleton/Skeleton';
 const CharInfo=(props) =>{
    
     const [char, setChar] = useState(null);
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(false); 
+    
 
-    const marvelService = new MarvelService();
+    const {loading, error, getCharacter, clearError} = useMarvelService();
 
 
     useEffect(() =>{
@@ -29,28 +29,19 @@ const CharInfo=(props) =>{
             return;
         }
 
-    onCharLoading();
-    marvelService
-        .getCharacter(charId)
+  
+        clearError();
+        getCharacter(charId)
         .then(onCharLoaded)
-        .catch(onError);
+        
     }
     
     const onCharLoaded = (char) => {
         setChar(char);
-        setLoading(false)
+      
     }
 
-    const onCharLoading = (char) =>{      
-        setChar(char)
-        setLoading(loading => true)
-    }
-
-    const onError= () =>{
-        setLoading(loading => false)
-        setError(error => true)
-    }
-    
+   
 
         const skeleton = char || loading || error ? null : <Skeleton/>
         const errorMessage = error ? <ErrorMessage/> : null;
@@ -107,8 +98,12 @@ const View = ({char}) =>{
                 comics.map((item, i) =>{
                         //if (i > 9 ) return;
                         return (
-                        <li key={i} className="char__comics-item">
+                        <li 
+                        key={i} 
+                        className="char__comics-item">
+                            <Link to={`/comics/${item.id}`}>
                             {item.name}
+                            </Link>
                         </li>
                         )
                     })
