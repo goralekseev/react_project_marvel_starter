@@ -9,7 +9,7 @@ import AppBanner from '../appBanner/AppBanner';
 const SinglePage = ({Component, dataType}) => {
     const {id} = useParams();
     const [data, setData] = useState(null);
-    const {clearError, getCharacter, getComics,  process, setProcess} = useMarvelService()
+    const {clearError, getCharacter, getComics, process, setProcess} = useMarvelService()
 
 
     useEffect(() =>{
@@ -25,7 +25,7 @@ const SinglePage = ({Component, dataType}) => {
                 getComics(id).then(onDataLoaded).then(() => setProcess('confirmed'))
                 break;
             case 'character':
-                getCharacter(id).then(onDataLoaded).then(() => setProcess('confirmed'))
+                getCharacter(id).then(onDataLoaded).then(() => setProcess('confirmed'));
                 break;
             default:
                 return;
