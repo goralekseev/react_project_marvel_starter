@@ -1,6 +1,7 @@
 import './charList.scss';
 import { useState, useEffect, useRef } from 'react';
 import React from 'react';
+import {CSSTransition, TransitionGroup} from 'react-transition-group'; 
 import PropTypes from 'prop-types'
 import useMarvelService from '../../services/MarvelService';
 import Spinner from '../spinner/Spinner';
@@ -62,6 +63,7 @@ const CharList =(props) =>{
     
 
         return(
+            <CSSTransition in={item.id} timeout={3000} classNames="char__item">
             <li 
                 ref={el => itemRefs.current[i] = el}
                 className="char__item"
@@ -80,12 +82,15 @@ const CharList =(props) =>{
                     <img src={item.thumbnail} alt={item.name} style={imgStyle}/>
                     <div className="char__name">{item.name}</div>
             </li>
+            </CSSTransition>
         )
     });
 
     return (
         <ul className="char__grid">
+             <TransitionGroup component={null}>
             {items}
+            </TransitionGroup>
         </ul>
         )
     }

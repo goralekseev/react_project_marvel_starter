@@ -1,6 +1,7 @@
 import './comicsList.scss';
-import { React, useEffect, useState, useRef } from 'react';
-import {Link} from 'react-router-dom'
+import { React, useEffect, useState } from 'react';
+import {Link} from 'react-router-dom';
+
 
 import useMarvelService from '../../services/MarvelService';
 import Spinner from '../spinner/Spinner';
@@ -23,6 +24,7 @@ useEffect(()=>{
       onRequest(offset, true)
     }, []);
 
+    
 const onRequest = (offset, initial) =>{
     initial ? setNewItemLoading(false) : setNewItemLoading(true)
     getAllComics(offset)
@@ -51,14 +53,13 @@ function renderComics(arr){
 
 
         return(
-            <li 
-            className="comics__item"
+            <li className="comics__item"
             key={item.id}>
-                 <Link to={`/comics/${item.id}`}>
+            <Link to={`/comics/${item.id}`}>
                 <img src={item.thumbnail} alt={item.name} className="comics__item-img"/>
                 <div className="comics__item-name">{item.name}</div>
                 <div className="comics__item-price">{item.price}$</div>
-                </Link>
+            </Link>
         </li>
         )
     })

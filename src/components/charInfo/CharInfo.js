@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';  
 import PropTypes from 'prop-types';
-import {Link} from 'react-router-dom'
+import {useParams, Link} from 'react-router-dom'
 
 import './charInfo.scss';
 
@@ -12,7 +12,11 @@ import Skeleton from '../skeleton/Skeleton';
 
 const CharInfo=(props) =>{
    
+    const smth = useParams();
+    console.log(smth)
+    
     const [char, setChar] = useState(null);
+  
     
 
     const {loading, error, getCharacter, clearError} = useMarvelService();
@@ -29,7 +33,6 @@ const CharInfo=(props) =>{
             return;
         }
 
-  
         clearError();
         getCharacter(charId)
         .then(onCharLoaded)
@@ -95,15 +98,13 @@ const View = ({char}) =>{
             <ul className="char__comics-list">
                 {comics.length > 0 ? null: 'There are now comics available' }
                 {
-                comics.map((item, i) =>{
+                    comics.map((item, i) =>{
                         //if (i > 9 ) return;
                         return (
-                        <li 
-                        key={i} 
-                        className="char__comics-item">
-                            <Link to={`/comics/${item.id}`}>
-                            {item.name}
-                            </Link>
+                        <li key={i} className="char__comics-item">
+                         <Link to={`/comics/${item.resourceURI.substring(43)}`}> 
+                        {item.name}
+                        </Link>
                         </li>
                         )
                     })
